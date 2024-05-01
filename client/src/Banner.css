@@ -1,0 +1,59 @@
+/* Styling for the navbar begins */
+#navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #333333;
+    color: #FFFFFF;
+    padding: 10px 20px;
+    z-index: 100;
+    opacity: 0.8;
+    transition: opacity .3s ease;
+  }
+  
+  #navbar.navbar-scroll {
+    opacity: 1;
+  }
+  
+  #navbar-title {
+    display: flex;
+    align-items: center;
+    font-family: 'Pacifico', cursive;
+    font-size: 20px;
+  }
+  
+  #navbar-links {
+    display: flex;
+    margin-right:50px;
+  }
+  
+  .navbar-link {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    color: #FFFFFF;
+    font-size: 15px;
+    background: none;
+    border: none;
+    transition: transform 0.3s ease, text-shadow 0.3s ease;
+  }
+  
+  .navbar-link:hover {
+    transform: scale(1.1);
+    text-shadow: 0px 0px 30px rgba(66, 65, 66, 0.8), 0px 4px 10px rgba(0, 0, 0, 0.2);
+  }
+  
+  .button-link:hover {
+    text-decoration: none;
+  }
+  
+  .icons {
+    font-family: 'Material Icons', sans-serif;
+    font-size: 15px;
+  }
+  
+  /* Styling for the navbar ends */

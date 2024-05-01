@@ -4,6 +4,9 @@
 <form action="/registration/sign_in/" method="post">
   {% csrf_token %}
   <div>
+    {% if error %}
+        <p class="error">{{ error }}</p>
+    {% endif %}
     <label>
       Email
       <input type="email" name="email">

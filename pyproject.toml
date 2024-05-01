@@ -2,7 +2,7 @@
 name = "CatConnect"
 version = "0.1.0"
 description = ""
-authors = ["Joseph Ditton <jditton.atomic@gmail.com>"]
+authors = ["Jason Merrone <jasonmerone@gmail.com>"]
 readme = "README.md"
 
 [tool.poetry.dependencies]
