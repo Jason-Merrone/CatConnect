@@ -1,10 +1,81 @@
-#greeting{
-    margin-top:50px;
+/* Styling for the main profile container and elements */
+#profile-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-top: 80px; /* Space from the top, considering navbar */
+    padding: 20px;
+    background-color: #333333;
+    color: #FFFFFF;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 80%;
+    max-width: 600px; /* Maximum width for the container */
+    margin: auto; /* Center the container horizontally */
 }
 
+/* Styling for greetings and general text */
+#greeting {
+    font-size: 24px;
+    font-weight: bold;
+    margin-top:50px;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+/* General input styling */
+input[type="text"], input[type="url"] {
+    width: 80%;
+    padding: 10px;
+    margin-top: 5px;
+    border: 2px solid violet; /* Violet to tie into your color theme */
+    background-color: #444444;
+    color: white;
+    border-radius: 5px;
+}
+
+/* Labels for better readability */
+label {
+    display: block;
+    margin-top: 20px;
+    font-size: 16px;
+}
+
+/* Styling for buttons */
+button {
+    margin-top: 10px;
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: blueviolet; /* Violet to match the site theme */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+button:hover {
+    background-color: #7a00cc; /* Darker violet on hover */
+}
+
+/* Profile image styling adjustments */
 .img-profile {
-    width: 150px;   /* Set width to a fixed size or maximum size */
-    height: 150px;  /* Set height to the same as width to maintain aspect ratio */
-    object-fit: cover;  /* Ensures the image covers the area without distorting aspect ratio */
-    border-radius: 50%; /* Optional: makes the image circular */
-  }
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 50%; /* Circular profile picture */
+    border: 3px solid #7a00cc; /* Border color to match buttons */
+    margin-top: 20px; /* Space from inputs */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.25);
+}
+
+/* Logout button specific styling */
+#logout {
+    background-color: #FF6347; /* Tomato red for importance */
+    margin-top: 30px;
+}
+
+#logout:hover {
+    background-color: #e05241; /* Darker red on hover */
+}

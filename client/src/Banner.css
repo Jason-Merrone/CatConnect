@@ -9,7 +9,7 @@
     align-items: center;
     background-color: #333333;
     color: #FFFFFF;
-    padding: 10px 20px;
+    padding: 1px 20px;
     z-index: 100;
     opacity: 0.8;
     transition: opacity .3s ease;
@@ -43,7 +43,7 @@
   }
   
   .navbar-link:hover {
-    transform: scale(1.1);
+    transform: scale(1.03);
     text-shadow: 0px 0px 30px rgba(66, 65, 66, 0.8), 0px 4px 10px rgba(0, 0, 0, 0.2);
   }
   

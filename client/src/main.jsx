@@ -4,8 +4,8 @@ import App from './App.jsx'
 import './index.css'
 import 'vite/modulepreload-polyfill'
 import Trending from "./Trending.jsx"
-import Post from "./Post.jsx"
-import Catgpt from "./Catgpt.jsx"
+import MakePost from "./MakePost.jsx"
+import MyPosts from "./MyPosts.jsx"
 import Profile from "./Profile.jsx"
 import {
   createHashRouter,
@@ -22,12 +22,12 @@ const router = createHashRouter([
         element:<Trending />
       },
       {
-        path: "/Post",
-        element:<Post />
+        path: "/MakePost",
+        element:<MakePost />
       },
       {
-        path: "/Catgpt",
-        element:<Catgpt />
+        path: "/MyPosts",
+        element:<MyPosts />
       },
       {
         path: "/Profile",

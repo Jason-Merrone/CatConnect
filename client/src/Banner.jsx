@@ -16,16 +16,16 @@ export default function Banner() {
                         Trending
                     </button>
                 </Link>
-                <Link to="/Post" className="button-link">
+                <Link to="/MakePost" className="button-link">
                     <button className="navbar-link">
                         <span className="icons">center_focus_strong</span>
-                        Post
+                        New Post
                     </button>
                 </Link>
-                <Link to="/Catgpt" className="button-link">
+                <Link to="/MyPosts" className="button-link">
                     <button className="navbar-link">
-                        <span className="icons">smart_toy</span>
-                        CatGPT
+                        <span className="icons">save</span>
+                        My Posts
                     </button>
                 </Link>
                 <Link to="/Profile" className="button-link">
