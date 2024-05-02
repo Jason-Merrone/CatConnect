@@ -3,9 +3,9 @@
 }
 
 .img {
-    width: 150px;   /* Set width to a fixed size or maximum size */
-    height: 150px;  /* Set height to the same as width to maintain aspect ratio */
-    object-fit: cover;  /* Ensures the image covers the area without distorting aspect ratio */
+    width: 150px; 
+    height: 150px;
+    object-fit: cover; 
   }
 
 #make-caption{

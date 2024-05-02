@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 export default function MakePost(){     
     const [imageLink, setImageLink] = useState('');     
     const [caption, setCaption] = useState('');     
-    // Set character limit
+    // Set character limi
     const MAX_CAPTION_LENGTH = 150;
 
     const handleImgChange = (event) => {        
@@ -14,7 +14,6 @@ export default function MakePost(){
     };    
 
     const handleCaptionChange = (event) => {
-        // Limit caption length
         if (event.target.value.length <= MAX_CAPTION_LENGTH) {
             setCaption(event.target.value);
         }    
@@ -51,9 +50,8 @@ export default function MakePost(){
                     id="bio" 
                     value={caption} 
                     onChange={handleCaptionChange} 
-                    maxLength={MAX_CAPTION_LENGTH} // Set maxLength attribute
+                    maxLength={MAX_CAPTION_LENGTH}
                 /> 
-                {/* Display remaining characters */}
                 <span>{caption.length}/{MAX_CAPTION_LENGTH}</span>       
             </div>        
             <div>            

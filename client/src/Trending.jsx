@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import './MyPosts.css'; // Using the same stylesheet for styling consistency
+import './MyPosts.css'; // Using the same stylesheet for trending as myposts
 import GetCookie from "./GetCookie";
 
 function formatDate(dateString) {

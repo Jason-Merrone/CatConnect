@@ -8,13 +8,11 @@ from django.forms.models import model_to_dict
 from .models import UserProfile, Post
 from django.utils import timezone
 
-# Load manifest when server launches
 MANIFEST = {}
 if not settings.DEBUG:
     f = open(f"{settings.BASE_DIR}/core/static/manifest.json")
     MANIFEST = json.load(f)
 
-# Create your views here.
 @login_required
 def index(req):
     context = {
@@ -38,7 +36,7 @@ def my_profile(req):
         profile = req.user.userprofile
         data = json.loads(req.body)
         
-        # Update fields only if they are present in the request
+        # Update fields only if they are pesent in the request
         cat_breed = data.get('cat_breed')
         if cat_breed is not None:
             profile.cat_breed = cat_breed
@@ -58,19 +56,17 @@ def my_profile(req):
 @login_required
 def make_post(request):
     if request.method == 'POST':
-        # Parse the JSON body of the request
+
         data = json.loads(request.body)
         caption = data.get('caption', '')
         link_to_image = data.get('link_to_image', '')
-        # Get the user profile associated with the logged-in user
+
         user_profile = UserProfile.objects.get(user=request.user)
         
-        # Create a new Post instance without setting 'likes'
         new_post = Post.objects.create(
             profile=user_profile,
             caption=caption,
             link_to_image=link_to_image
-            # 'likes' should not be included here if it's a computed property
         )
         
         # Save the post
@@ -79,8 +75,6 @@ def make_post(request):
         return JsonResponse({"message": "Post created successfully"}, status=201)
     else:
         return JsonResponse({"error": "Method not allowed"}, status=405)
-
-# views.py
 
 @login_required
 def view_post(request, post_id):
@@ -121,7 +115,7 @@ from datetime import datetime
 @login_required
 def trending_posts(request):
     posts = Post.objects.all()
-    now = timezone.now()  # Use timezone-aware datetime
+    now = timezone.now()  # Use timezone datetime
     for post in posts:
         days_since_posted = (now - post.created_at).days
         post.ranking_score = post.likes / (days_since_posted ** 2 if days_since_posted > 0 else 1)
