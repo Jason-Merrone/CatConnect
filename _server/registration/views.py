@@ -1,7 +1,7 @@
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
-from torchvision import transforms
+from torchvision import transforms, models
 from PIL import Image
 import requests
 from io import BytesIO
@@ -9,52 +9,28 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
 from django.contrib.auth import login, authenticate, logout
 from django.http import JsonResponse, HttpResponse
+from django.db import IntegrityError
 
+# Setup for the pre-trained ResNet model
+device = torch.device('cpu')
+model = models.resnet18(pretrained=True)
+num_ftrs = model.fc.in_features
+model.fc = nn.Linear(num_ftrs, 1)  # Modify the fully connected layer for binary classification
+model.load_state_dict(torch.load('./registration/model_feline_classifier.pth', map_location=device))
+model.eval()
+model.to(device)
 
-class SimpleCNN(nn.Module):
-    def __init__(self):
-        super(SimpleCNN, self).__init__()
-        self.conv_layers = nn.Sequential(
-            nn.Conv2d(3, 16, kernel_size=3, padding=1),
-            nn.ReLU(),
-            nn.MaxPool2d(kernel_size=2),
-            nn.Conv2d(16, 32, kernel_size=3, padding=1),
-            nn.ReLU(),
-            nn.MaxPool2d(kernel_size=2),
-            nn.Conv2d(32, 64, kernel_size=3, padding=1),
-            nn.ReLU(),
-            nn.MaxPool2d(kernel_size=2),
-        )
-        self.fc_layers = nn.Sequential(
-            nn.Linear(64 * 28 * 28, 512),
-            nn.ReLU(),
-            nn.Linear(512, 1)
-        )
-
-    def forward(self, x):
-        x = self.conv_layers(x)
-        x = torch.flatten(x, 1)
-        x = self.fc_layers(x)
-        return x
-
-# Load the model and set transformations
+# Image transformation
 transform = transforms.Compose([
-    transforms.Resize((224, 224)),  # Assuming your model expects 224x224 images
+    transforms.Resize((224, 224)),  # Resize images to match the model's expected input size
     transforms.ToTensor(),
     transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225])
 ])
 
-device = torch.device('cpu')
-model = SimpleCNN()
-model.load_state_dict(torch.load('./registration/model_feline_classifier.pth'))
-model.eval()
-model.to(device)
-
-
 def load_image_from_url(url):
     try:
         response = requests.get(url)
-        response.raise_for_status()  # Raises stored HTTPError, if one occurred
+        response.raise_for_status()
         image = Image.open(BytesIO(response.content)).convert('RGB')
         image = transform(image).unsqueeze(0)
         return image
@@ -68,10 +44,7 @@ def predict_image(image):
     with torch.no_grad():
         output = model(image.to(device))
         prediction = torch.sigmoid(output)
-        is_cat = prediction.item() > 0.5
-        if(is_cat == False):
-            print("no cat")
-        return is_cat
+        return prediction.item() > 0.5
 
 def is_cat_image(url):
     image = load_image_from_url(url)
@@ -80,20 +53,36 @@ def is_cat_image(url):
 
 def sign_up(req):
     if req.method == "POST":
+        username = req.POST.get("username")
+        password = req.POST.get("password")
+        first_name = req.POST.get("first_name")
+        last_name = req.POST.get("last_name")
         cat_image_url = req.POST.get("cat_image_url")
+
+        if User.objects.filter(username=username).exists():
+            return render(req, "registration/sign_up.html", {
+                'error': 'This username is already taken. Please choose another.'
+            })
+
         if not is_cat_image(cat_image_url):
             return render(req, "registration/sign_up.html", {
                 'error': 'The provided URL does not contain a cat image. Please provide a valid cat image URL.'
             })
-        
-        user = User.objects.create_user(
-            username=req.POST.get("username"),
-            password=req.POST.get("password"),
-            first_name=req.POST.get("first_name"),
-            last_name=req.POST.get("last_name"),
-        )
-        login(req, user)
-        return redirect("/")
+
+        try:
+            user = User.objects.create_user(
+                username=username,
+                password=password,
+                first_name=first_name,
+                last_name=last_name
+            )
+            login(req, user)
+            return redirect("/")
+        except IntegrityError:
+            return render(req, "registration/sign_up.html", {
+                'error': 'An error occurred while creating the account. Please try again.'
+            })
+
     else:
         return render(req, "registration/sign_up.html")
 
@@ -103,11 +92,10 @@ def sign_in(req):
         if user is not None:
             login(req, user)
             return redirect("/")
-
-        return render(req, "registration/sign_in.html",{'error': 'Invalid username or password'})
+        return render(req, "registration/sign_in.html", {'error': 'Invalid username or password'})
     else:
         return render(req, "registration/sign_in.html")
 
-def logout_view(request):
-    logout(request)
-    return JsonResponse({"success": True })
+def logout_view(req):
+    logout(req)
+    return JsonResponse({"success": True})
