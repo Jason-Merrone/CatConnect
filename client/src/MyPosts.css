@@ -1,63 +1,66 @@
-/* General styles for the posts container */
 #user-posts {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    border: 1px solid blueviolet;  /* Visible border */
-    background-color: #333333;     /* Dark theme background */
-    color: #FFFFFF;                /* Text color for readability */
-    margin: 50px 0;                /* Vertical margin */
-    padding: 20px;                 /* Padding for spacing */
-    border-radius: 10px;           /* Rounded corners for a modern look */
-    box-shadow: 0px 0px 20px rgba(138, 43, 226, 0.5); /* Soft purple glow */
-    width: 80%;                    /* Controlled width */
-    max-width: 600px;              /* Maximum width */
+    border: 1px solid blueviolet;
+    background-color: #333333;
+    color: #FFFFFF;
+    margin: 50px 0;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 0px 20px rgba(138, 43, 226, 0.5);
+    width: 80%;
+    max-width: 600px;
 }
 
-/* Styles for the images in posts */
 .post-image {
-    width: 100%;                   /* Responsive width */
-    max-width: 250px;              /* Maximum width for images */
-    height: auto;                  /* Maintain aspect ratio */
-    border-radius: 5px;            /* Rounded corners for images */
-    box-shadow: 0px 8px 15px rgba(0,0,0,0.3); /* Shadow for depth */
+    width: 100%;
+    max-width: 250px;
+    height: auto;
+    border-radius: 5px;
+    box-shadow: 0px 8px 15px rgba(0,0,0,0.3);
 }
 
-/* Container for descriptions including caption and likes */
 #descriptions {
-    display: flex;               /* Use flexbox for better control */
-    flex-direction: column;    /* Stack caption and likes vertically */
-    align-items: center;       /* Center content horizontally */
-    width: 100%;                 /* Ensure descriptions take full width */
-    margin-top: 10px;           /* Space between image and text */
-    overflow:scroll; 
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    margin-top: 10px;
+    overflow: scroll;
 }
 
 .caption-container {
-    overflow: hidden;       /* Hide overflowing text */
-    text-overflow: ellipsis; /* Add ellipsis (...) for truncated text */
-    white-space: nowrap;   /* Prevent text from wrapping */
-    width: 100%;            /* Ensure caption takes full container width */
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 100%;
 }
 
-/* Styles for the likes and icons */
 #post-likes {
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 18px;  /* Larger font size for likes count */
-    margin-top: 5px;  /* Spacing above likes */
+    font-size: 18px;
+    margin-top: 5px;
 }
 
 .icons {
     font-family: 'Material Icons';
-    font-size: 24px;  /* Icon size for visibility */
-    margin-right: 10px;  /* Space between icon and likes count */
-    color: violet;  /* Icon color to match the theme */
+    font-size: 24px;
+    margin-right: 10px;
+    color: grey;
 }
 
-/* Hover effect on each post container for interactivity */
+.liked {
+    color: violet;
+}
+
+.not-liked {
+    color: grey;
+}
+
 #user-posts:hover {
     transform: translateY(-5px);
     box-shadow: 0px 0px 30px rgba(138, 43, 226, 0.7);
@@ -66,26 +69,29 @@
 .user-info {
     display: flex;
     align-items: center;
-    margin-bottom: 10px; /* Space between user info and the post */
+    margin-bottom: 10px;
 }
 
 .profile-pic {
     width: 40px;
     height: 40px;
-    border-radius: 50%; /* Circular profile pictures */
-    margin-right: 10px; /* Space between picture and username */
+    border-radius: 50%;
+    margin-right: 10px;
 }
 
 .username {
-    color: #FFFFFF; /* White username text */
-    font-weight: bold; /* Bold username text */
+    color: #FFFFFF;
+    font-weight: bold;
     margin-right: 5px;
 }
 
-/* Responsive design adjustments */
+#num-likes {
+    margin-top: 10px;
+}
+
 @media (max-width: 768px) {
     #user-posts {
-        width: 95%;  /* More width on smaller screens */
-        margin: 20px auto;  /* Reduced margin on smaller screens */
+        width: 95%;
+        margin: 20px auto;
     }
 }

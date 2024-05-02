@@ -37,11 +37,17 @@ export default function Trending() {
         getTrendingPosts();
     }, []);
 
+    if (isLoading) {
+        return <div>Loading...</div>;
+    }
+    if (error) {
+        return <div>Error: {error.message}</div>;
+    }
+
     const handleLike = async (postId) => {
         const csrfToken = GetCookie('csrftoken');  // Retrieve CSRF token from cookies
-
         try {
-            const response = await fetch(`/toggle_like_post/${postId}/`, {  // Updated endpoint to toggle like
+            const response = await fetch(`/toggle_like_post/${postId}/`, {
                 method: 'POST',
                 credentials: 'include',
                 headers: {
@@ -55,7 +61,7 @@ export default function Trending() {
             const updatedPost = await response.json();
             setTrendingPosts(trendingPosts.map(post => {
                 if (post.id === postId) {
-                    return { ...post, likes: updatedPost.likes };
+                    return { ...post, likes: updatedPost.likes, liked_by_user: !post.liked_by_user };
                 }
                 return post;
             }));
@@ -63,14 +69,6 @@ export default function Trending() {
             console.error('Failed to toggle like on the post:', error);
         }
     };
-
-    if (isLoading) {
-        return <div>Loading...</div>;
-    }
-
-    if (error) {
-        return <div>Error: {error.message}</div>;
-    }
 
     return (
         <div>
@@ -82,14 +80,21 @@ export default function Trending() {
                             <span className="username">{post.username}</span>
                             <span className="date">{formatDate(post.created_at)}</span>
                         </div>
+                        <div className="bio-container">User bio: {post.bio}</div>
                         <img className="post-image" src={post.link_to_image} alt="Post Image" />
                         <div id="descriptions">
-                          <div className="caption-container">{post.caption}</div>
-                          <div id="post-likes">
-                              <button id="like-button" className="icons" onClick={() => handleLike(post.id)}>thumb_up</button>
-                              {post.likes}
-                          </div>
-                      </div>
+                            <div className="caption-container">Caption: {post.caption}</div>
+                            <div id="post-likes">
+                                <button 
+                                    id="like-button" 
+                                    className={`icons ${post.liked_by_user ? 'liked' : 'not-liked'}`} 
+                                    onClick={() => handleLike(post.id)}
+                                    >
+                                    thumb_up
+                                </button>
+                                <div id="num-likes">{post.likes}</div>
+                            </div>
+                        </div>
                     </li>
                 ))}
             </ul>

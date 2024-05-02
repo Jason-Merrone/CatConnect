@@ -117,25 +117,27 @@ from django.http import JsonResponse
 from .models import Post
 from datetime import datetime
 
+
 @login_required
 def trending_posts(request):
     posts = Post.objects.all()
     now = timezone.now()  # Use timezone-aware datetime
     for post in posts:
         days_since_posted = (now - post.created_at).days
-        post.ranking_score = post.likes / (days_since_posted ** 2 if days_since_posted > 0 else 1)  # Avoid division by zero
-
+        post.ranking_score = post.likes / (days_since_posted ** 2 if days_since_posted > 0 else 1)
     sorted_posts = sorted(posts, key=lambda p: p.ranking_score, reverse=True)[:100]
     posts_data = [
         {
             "id": post.id,
+            "bio": post.profile.bio,
             "caption": post.caption,
             "link_to_image": post.link_to_image,
             "likes": post.likes,
             "username": post.profile.user.username,
             "profile_picture": post.profile.link_to_pfp,
             "created_at": post.created_at.strftime('%Y-%m-%d %H:%M:%S'),
-            "ranking_score": post.ranking_score  # Include score for potential frontend use
+            "ranking_score": post.ranking_score,
+            "liked_by_user": request.user in post.liked_by.all()  # Boolean value whether user liked the post
         } for post in sorted_posts
     ]
     return JsonResponse({"posts": posts_data})
